@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<title>Calendario Storico · Superbasket</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#e35d1c">
+<meta property="og:title" content="Calendario Storico Superbasket">
+<meta property="og:description" content="Oggi nella storia della pallacanestro italiana. Un evento al giorno dall'archivio storico Superbasket.">
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --paper: #f6efe2;
+    --paper-2: #ede4d0;
+    --brand: #e35d1c;
+    --brand-dark: #b04513;
+    --gold: #b88a2e;
+    --muted: #6b665c;
+    --line: #d6ccb4;
+    --hi: #fff5e6;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin:0; padding:0; background:var(--paper); color:var(--ink);
+    font-family: "Iowan Old Style", "Palatino Linotype", "Palatino", "URW Palladio L", serif;
+    line-height:1.5; -webkit-font-smoothing:antialiased; }
+  h1,h2,h3,h4 { font-family: "Impact", "Oswald", "Arial Narrow", sans-serif; text-transform:uppercase; letter-spacing:.02em; margin:0; line-height:1.05; }
+  a { color:var(--brand); text-decoration:none; }
+  a:hover { text-decoration:underline; }
+
+  /* ── Masthead ──────────────── */
+  .masthead {
+    border-bottom:6px double var(--ink);
+    padding:22px 22px 18px;
+    background:var(--paper);
+  }
+  .masthead-inner { max-width:1200px; margin:0 auto; display:flex; align-items:flex-end; justify-content:space-between; gap:20px; flex-wrap:wrap; }
+  .brand {
+    font-size:clamp(32px, 5vw, 56px);
+    color:var(--brand);
+    font-family: "Impact","Oswald", sans-serif;
+    letter-spacing:-.02em;
+  }
+  .brand small { display:block; font-size:12px; letter-spacing:.35em; color:var(--muted); text-transform:uppercase; font-family: "Helvetica Neue",sans-serif; margin-top:6px; }
+  .dateline {
+    text-align:right; font-size:12px; letter-spacing:.28em; color:var(--muted); text-transform:uppercase;
+    font-family: "Helvetica Neue",sans-serif;
+  }
+  .dateline b { display:block; font-size:22px; letter-spacing:.03em; color:var(--ink); font-family: "Impact",sans-serif; margin-top:4px; }
+
+  /* ── Today hero ────────────── */
+  .hero {
+    max-width:1200px; margin:28px auto 20px; padding:0 22px;
+  }
+  .hero-title {
+    font-size:clamp(28px, 4.5vw, 46px);
+    color:var(--ink);
+  }
+  .hero-title span { color:var(--brand); }
+  .hero-sub { color:var(--muted); font-size:14px; letter-spacing:.02em; margin:6px 0 24px; }
+
+  /* ── Controls ──────────────── */
+  .controls {
+    max-width:1200px; margin:0 auto 20px; padding:0 22px;
+    display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  }
+  .ctrl-group { display:flex; align-items:center; gap:8px; }
+  .ctrl-group label { font-size:11px; letter-spacing:.28em; text-transform:uppercase; color:var(--muted); font-family:"Helvetica Neue",sans-serif; }
+  input[type=date], input[type=search], select {
+    background:var(--paper-2); border:1px solid var(--line); color:var(--ink);
+    padding:8px 12px; font-size:14px; border-radius:2px;
+    font-family: "Helvetica Neue",sans-serif;
+  }
+  input[type=search] { min-width:220px; }
+  .chip {
+    display:inline-flex; align-items:center; gap:6px;
+    background:var(--paper-2); border:1px solid var(--line);
+    padding:6px 12px; border-radius:999px; cursor:pointer;
+    font-size:12px; letter-spacing:.06em; text-transform:uppercase;
+    font-family: "Helvetica Neue",sans-serif; color:var(--ink);
+    user-select:none;
+  }
+  .chip.on { background:var(--ink); color:var(--paper); border-color:var(--ink); }
+  .chip .cnt { font-size:10px; opacity:.7; }
+  .btn {
+    padding:8px 14px; background:var(--brand); color:#fff; border:none;
+    font-family:"Helvetica Neue",sans-serif; font-size:12px; letter-spacing:.15em; text-transform:uppercase; cursor:pointer;
+    border-radius:2px;
+  }
+  .btn.ghost { background:transparent; color:var(--brand); border:1px solid var(--brand); }
+
+  /* ── Result count + strip ───── */
+  .count-strip {
+    max-width:1200px; margin:0 auto 16px; padding:8px 22px;
+    border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+    display:flex; justify-content:space-between; align-items:center;
+    font-size:11px; letter-spacing:.28em; text-transform:uppercase; color:var(--muted);
+    font-family:"Helvetica Neue",sans-serif;
+  }
+  .count-strip b { color:var(--ink); font-size:14px; }
+
+  /* ── Event cards ───────────── */
+  .grid {
+    max-width:1200px; margin:0 auto 60px; padding:0 22px;
+    display:grid; gap:18px;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  }
+  .card {
+    background:var(--paper);
+    border:1px solid var(--line);
+    padding:18px 20px 16px;
+    position:relative;
+    border-radius:2px;
+    box-shadow:0 1px 0 rgba(0,0,0,.03), 0 12px 24px -18px rgba(0,0,0,.35);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .card:hover { transform:translateY(-2px); box-shadow:0 1px 0 rgba(0,0,0,.03), 0 20px 40px -20px rgba(0,0,0,.4); }
+  .card.compleanno { border-top:4px solid var(--brand); }
+  .card.trofeo      { border-top:4px solid var(--gold); }
+  .card.morte       { border-top:4px solid #4a4a4a; }
+  .card.altro       { border-top:4px solid #6a8c5a; }
+  .card.nazionale   { border-top:4px solid #0f3d78; }
+
+  .card-tipo { font-size:10px; letter-spacing:.32em; text-transform:uppercase; color:var(--muted); font-family:"Helvetica Neue",sans-serif; margin-bottom:4px; }
+  .card-tipo.compleanno { color:var(--brand); }
+  .card-tipo.trofeo     { color:var(--gold); }
+  .card-tipo.morte      { color:#666; }
+
+  .card-title {
+    font-size:22px; color:var(--ink); font-family:"Impact","Oswald",sans-serif;
+    text-transform:uppercase; letter-spacing:.01em; line-height:1.08;
+  }
+  .card-year {
+    display:inline-block; margin-top:8px;
+    font-family:"Impact","Oswald",sans-serif; font-size:34px; color:var(--brand);
+    letter-spacing:.02em;
+  }
+  .card-desc { color:var(--muted); font-size:14px; margin-top:6px; font-style:italic; }
+  .card-meta {
+    margin-top:12px; padding-top:10px; border-top:1px dashed var(--line);
+    display:flex; flex-wrap:wrap; gap:6px 14px;
+    font-size:11px; color:var(--muted); font-family:"Helvetica Neue",sans-serif;
+    letter-spacing:.04em;
+  }
+  .card-meta b { color:var(--ink); }
+  .age-badge {
+    position:absolute; top:14px; right:16px;
+    font-size:10px; letter-spacing:.2em; color:var(--muted); text-transform:uppercase;
+    font-family:"Helvetica Neue",sans-serif;
+  }
+
+  /* ── Empty state ───────────── */
+  .empty {
+    max-width:1200px; margin:60px auto; padding:40px 22px; text-align:center;
+    color:var(--muted); font-style:italic;
+  }
+
+  /* ── Footer ────────────────── */
+  footer {
+    border-top:1px solid var(--line);
+    margin-top:20px; padding:24px 22px;
+    text-align:center; color:var(--muted); font-size:12px;
+    font-family:"Helvetica Neue",sans-serif;
+  }
+
+  /* ── Loader ────────────────── */
+  #loading { text-align:center; padding:60px 20px; color:var(--muted); font-style:italic; }
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <div class="brand">
+      SUPERBASKET
+      <small>Calendario Storico · Archivio</small>
+    </div>
+    <div class="dateline">
+      Edizione del
+      <b id="today-str">—</b>
+    </div>
+  </div>
+</div>
+
+<section class="hero">
+  <h1 class="hero-title">Oggi <span>nella storia</span> del basket italiano</h1>
+  <p class="hero-sub">Dall'archivio storico Superbasket — 200.000 pagine digitalizzate. Un evento al giorno: compleanni, trofei, ricordi.</p>
+</section>
+
+<section class="controls">
+  <div class="ctrl-group">
+    <label>Data</label>
+    <input type="date" id="datepick">
+    <button class="btn ghost" id="today-btn">Oggi</button>
+  </div>
+  <div class="ctrl-group">
+    <label>Cerca</label>
+    <input type="search" id="search" placeholder="Giocatore, allenatore, squadra…">
+  </div>
+  <div class="ctrl-group" id="chips"></div>
+  <div class="ctrl-group" style="margin-left:auto">
+    <label>Ordina</label>
+    <select id="sort">
+      <option value="year-desc">Anno ↓</option>
+      <option value="year-asc">Anno ↑</option>
+      <option value="type">Tipo</option>
+      <option value="name">Soggetto</option>
+    </select>
+  </div>
+</section>
+
+<div class="count-strip">
+  <span><b id="result-count">0</b> eventi</span>
+  <span id="filter-summary">—</span>
+</div>
+
+<div id="loading">Caricamento archivio…</div>
+<div class="grid" id="grid" style="display:none"></div>
+<div class="empty" id="empty" style="display:none">Nessun evento trovato per questa combinazione.</div>
+
+<footer>
+  <div>Calendario Storico Superbasket · Versione 1.0 · Archivio 1891–2026 · 5.680 eventi</div>
+  <div style="margin-top:6px">Un progetto per valorizzare le 200.000 pagine dell'archivio storico Superbasket.</div>
+</footer>
+
+<script>
+const TIPO_ORDER = ["Compleanno","Vittoria trofeo","Anniversario morte","Altro","Nazionale"];
+const TIPO_CLASS = {
+  "Compleanno":"compleanno",
+  "Vittoria trofeo":"trofeo",
+  "Anniversario morte":"morte",
+  "Altro":"altro",
+  "Nazionale":"nazionale"
+};
+const TIPO_LABEL = {
+  "Compleanno":"Compleanni",
+  "Vittoria trofeo":"Trofei",
+  "Anniversario morte":"Ricordi",
+  "Altro":"Altri eventi",
+  "Nazionale":"Nazionale"
+};
+
+let ALL = [];
+let activeTipi = new Set(TIPO_ORDER);
+
+const q = sel => document.querySelector(sel);
+const monthNames = ["Gennaio","Febbraio","Marzo","Aprile","Maggio","Giugno","Luglio","Agosto","Settembre","Ottobre","Novembre","Dicembre"];
+const pad = n => n.toString().padStart(2,"0");
+
+async function boot() {
+  const res = await fetch("events.json");
+  ALL = await res.json();
+
+  // Chips
+  const counts = {};
+  ALL.forEach(e => counts[e.tipo] = (counts[e.tipo]||0)+1);
+  const chipEl = q("#chips");
+  TIPO_ORDER.forEach(t => {
+    if (!counts[t]) return;
+    const el = document.createElement("span");
+    el.className = "chip on";
+    el.dataset.tipo = t;
+    el.innerHTML = `${TIPO_LABEL[t]} <span class="cnt">${counts[t]}</span>`;
+    el.onclick = () => {
+      if (activeTipi.has(t)) { activeTipi.delete(t); el.classList.remove("on"); }
+      else { activeTipi.add(t); el.classList.add("on"); }
+      render();
+    };
+    chipEl.appendChild(el);
+  });
+
+  // Init date to today
+  const today = new Date();
+  const iso = `${today.getFullYear()}-${pad(today.getMonth()+1)}-${pad(today.getDate())}`;
+  q("#datepick").value = iso;
+  q("#today-str").textContent = `${today.getDate()} ${monthNames[today.getMonth()]} ${today.getFullYear()}`;
+
+  q("#datepick").oninput = render;
+  q("#today-btn").onclick = () => { q("#datepick").value = iso; q("#search").value=""; render(); };
+  q("#search").oninput = render;
+  q("#sort").onchange = render;
+
+  q("#loading").style.display = "none";
+  q("#grid").style.display = "";
+  render();
+}
+
+function render() {
+  const dateVal = q("#datepick").value;
+  const searchVal = q("#search").value.trim().toLowerCase();
+  const sortMode = q("#sort").value;
+
+  let filtered = ALL;
+
+  // Date filter (unless there's a search query — then search across all dates)
+  if (dateVal && !searchVal) {
+    const [Y, M, D] = dateVal.split("-").map(Number);
+    filtered = filtered.filter(e => e.d === D && e.m === M);
+  }
+
+  // Type filter
+  filtered = filtered.filter(e => activeTipi.has(e.tipo));
+
+  // Text search
+  if (searchVal) {
+    filtered = filtered.filter(e => {
+      const s = ((e.soggetto||"") + " " + (e.desc||"") + " " + (e.nascita||"")).toLowerCase();
+      return s.includes(searchVal);
+    });
+  }
+
+  // Sort
+  if (sortMode === "year-desc") filtered.sort((a,b) => (b.y||0) - (a.y||0));
+  else if (sortMode === "year-asc") filtered.sort((a,b) => (a.y||0) - (b.y||0));
+  else if (sortMode === "type") filtered.sort((a,b) => TIPO_ORDER.indexOf(a.tipo) - TIPO_ORDER.indexOf(b.tipo) || (b.y||0)-(a.y||0));
+  else if (sortMode === "name") filtered.sort((a,b) => (a.soggetto||"").localeCompare(b.soggetto||"","it"));
+
+  // Result count
+  q("#result-count").textContent = filtered.length;
+  const [Y, M, D] = dateVal.split("-").map(Number);
+  const dateStr = `${D} ${monthNames[M-1]}`;
+  q("#filter-summary").textContent = searchVal
+    ? `Ricerca: "${searchVal}"`
+    : `${dateStr} — tutti gli anni`;
+
+  // Cap render for performance in search-all view
+  const CAP = 400;
+  const capped = filtered.slice(0, CAP);
+
+  const grid = q("#grid");
+  grid.innerHTML = "";
+  if (!capped.length) { q("#empty").style.display = ""; grid.style.display = "none"; return; }
+  q("#empty").style.display = "none"; grid.style.display = "";
+
+  const now = new Date();
+  const nowY = now.getFullYear();
+
+  for (const e of capped) {
+    const cls = TIPO_CLASS[e.tipo] || "altro";
+    const div = document.createElement("article");
+    div.className = "card " + cls;
+
+    let title = e.soggetto || e.desc || "—";
+    let ageBadge = "";
+    if (e.tipo === "Compleanno" && e.y) {
+      ageBadge = `<div class="age-badge">${nowY - e.y} anni</div>`;
+    } else if (e.tipo === "Anniversario morte" && e.y) {
+      ageBadge = `<div class="age-badge">da ${nowY - e.y} anni</div>`;
+    }
+
+    let meta = [];
+    if (e.date) meta.push(`<b>${e.date}</b>`);
+    if (e.nascita) meta.push(`Nascita: ${e.nascita}`);
+    if (e.morte) meta.push(`Morte: ${e.morte}`);
+    if (e.luogoMorte) meta.push(e.luogoMorte);
+    if (e.origine) meta.push(`<span title="Origine">${e.origine}</span>`);
+
+    const tipoLbl = TIPO_LABEL[e.tipo] || e.tipo;
+    div.innerHTML = `
+      ${ageBadge}
+      <div class="card-tipo ${cls}">${tipoLbl}</div>
+      <div class="card-title">${escapeHtml(title)}</div>
+      <div class="card-year">${e.y || ""}</div>
+      ${e.desc && e.desc !== title ? `<div class="card-desc">${escapeHtml(e.desc)}</div>` : ""}
+      <div class="card-meta">${meta.join(" · ")}</div>
+    `;
+    grid.appendChild(div);
+  }
+
+  if (filtered.length > CAP) {
+    const more = document.createElement("div");
+    more.style = "grid-column:1/-1; text-align:center; padding:20px; color:var(--muted); font-family:sans-serif; font-size:12px; letter-spacing:.15em; text-transform:uppercase;";
+    more.textContent = `+${filtered.length - CAP} altri eventi — restringi la ricerca`;
+    grid.appendChild(more);
+  }
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+
+boot();
+</script>
+</body>
+</html>
