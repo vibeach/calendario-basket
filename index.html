@@ -11,10 +11,10 @@
 <meta property="og:description" content="Oggi nella storia del basket italiano — 5.680 eventi dall'archivio storico Superbasket.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://vibeach.github.io/calendario-basket/">
+<meta property="og:image" content="https://vibeach.github.io/calendario-basket/og-default.svg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23e35d1c'/%3E%3Cpath d='M50 5 v90 M5 50 h90 M20 20 q30 30 60 60 M20 80 q30 -30 60 -60' stroke='%23131211' stroke-width='3' fill='none'/%3E%3C/svg%3E">
-<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23e35d1c'/%3E%3Cpath d='M50 5 v90 M5 50 h90 M20 20 q30 30 60 60 M20 80 q30 -30 60 -60' stroke='%23131211' stroke-width='3' fill='none'/%3E%3C/svg%3E">
 <link rel="alternate" type="application/rss+xml" title="Eventi del giorno" href="feed.xml">
 
 <script type="application/ld+json">
@@ -23,7 +23,12 @@
   "@type":"WebSite",
   "name":"Calendario Storico Superbasket",
   "url":"https://vibeach.github.io/calendario-basket/",
-  "description":"Archivio storico del basket italiano — un evento al giorno."
+  "description":"Archivio storico del basket italiano — un evento al giorno.",
+  "potentialAction":{
+    "@type":"SearchAction",
+    "target":"https://vibeach.github.io/calendario-basket/?q={search_term_string}",
+    "query-input":"required name=search_term_string"
+  }
 }
 </script>
 
@@ -67,7 +72,6 @@
   a:hover { text-decoration:underline; }
   button { font-family: inherit; }
 
-  /* Masthead */
   .masthead {
     border-bottom:6px double var(--ink);
     padding:22px 22px 18px;
@@ -77,15 +81,18 @@
     background:color-mix(in srgb, var(--paper) 92%, transparent);
   }
   .masthead-inner { max-width:1280px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap; }
-  .brand-left { display:flex; align-items:center; gap:14px; }
-  .brand-logo { width:44px; height:44px; border-radius:50%; background:var(--brand); position:relative; flex-shrink:0; }
-  .brand-logo::before, .brand-logo::after {
-    content:""; position:absolute; inset:0; border-radius:50%;
-    border:2px solid var(--ink); pointer-events:none;
+  .brand-left { display:flex; align-items:center; gap:14px; cursor:pointer; }
+  .brand-logo { width:44px; height:44px; border-radius:50%; background:var(--brand); position:relative; flex-shrink:0;
+    background-image: radial-gradient(circle at 30% 30%, #ff7d40, #d84f13); }
+  .brand-logo::before {
+    content:""; position:absolute; inset:6px; border-radius:50%;
+    border:2px solid #2a1806; pointer-events:none;
   }
   .brand-logo::after {
-    border-left:none; border-right:none;
-    transform: rotate(0deg);
+    content:""; position:absolute; inset:6px; border-radius:50%; pointer-events:none;
+    background:
+      linear-gradient(0deg, transparent 47%, #2a1806 47%, #2a1806 53%, transparent 53%),
+      linear-gradient(90deg, transparent 47%, #2a1806 47%, #2a1806 53%, transparent 53%);
   }
   .brand-title {
     font-size:clamp(24px, 3.5vw, 40px);
@@ -98,50 +105,136 @@
   .mast-tools { display:flex; align-items:center; gap:8px; }
   .icon-btn {
     background:transparent; border:1px solid var(--line); color:var(--ink);
-    padding:8px 10px; border-radius:6px; cursor:pointer; font-size:14px;
+    padding:8px 12px; border-radius:6px; cursor:pointer; font-size:13px;
     display:inline-flex; align-items:center; gap:6px;
     transition: all .15s ease;
+    font-family:"Helvetica Neue",sans-serif;
   }
   .icon-btn:hover { border-color:var(--brand); color:var(--brand); }
-  .icon-btn.primary { background:var(--brand); color:#fff; border-color:var(--brand); }
 
-  /* Hero */
-  .hero {
-    max-width:1280px; margin:32px auto 20px; padding:0 22px;
+  /* Hero of the day */
+  .hero-of-day {
+    max-width:1280px; margin:34px auto 30px; padding:0 22px;
+  }
+  .hero-of-day-inner {
+    display:grid; grid-template-columns:1fr; gap:26px; align-items:stretch;
+    background:var(--card); border:1px solid var(--line); border-top:6px solid var(--brand);
+    padding:0; border-radius:4px; box-shadow: var(--shadow); overflow:hidden;
+  }
+  @media (min-width: 900px) {
+    .hero-of-day-inner { grid-template-columns: 1.35fr 1fr; }
+  }
+  .hero-media {
+    background:var(--paper-2); position:relative; min-height:280px;
+    display:flex; align-items:center; justify-content:center; overflow:hidden;
+  }
+  .hero-media img {
+    width:100%; height:100%; object-fit:cover; position:absolute; inset:0;
+    animation: kenburns 20s ease-in-out infinite alternate;
+  }
+  @keyframes kenburns {
+    0%   { transform: scale(1.05) translate(-2%, -1%); }
+    100% { transform: scale(1.20) translate(2%, 1%); }
+  }
+  .hero-media .no-media {
+    font-family:"Impact",sans-serif; font-size:120px; color:var(--brand); opacity:.15;
+  }
+  .hero-content {
+    padding:32px 34px 30px; display:flex; flex-direction:column; justify-content:center;
   }
   .hero-eyebrow {
     color:var(--brand); font-size:11px; letter-spacing:.38em; text-transform:uppercase;
-    font-family: "Helvetica Neue",sans-serif; font-weight:600; margin-bottom:12px;
+    font-family: "Helvetica Neue",sans-serif; font-weight:700; margin-bottom:14px;
+  }
+  .hero-tipo {
+    display:inline-block; padding:5px 12px; background:var(--brand); color:#fff;
+    font-family:"Helvetica Neue",sans-serif; font-size:11px; letter-spacing:.24em;
+    text-transform:uppercase; border-radius:2px; margin-bottom:16px; font-weight:600;
+    align-self:flex-start;
   }
   .hero-title {
-    font-size:clamp(28px, 5vw, 54px);
-    color:var(--ink); line-height:1.02;
+    font-size:clamp(30px, 4vw, 46px);
+    color:var(--ink); line-height:1.02; margin-bottom:6px;
   }
-  .hero-title span { color:var(--brand); }
-  .hero-sub { color:var(--muted); font-size:15px; margin:14px 0 26px; max-width:640px; }
-  .today-strip {
-    display:inline-flex; align-items:center; gap:14px;
-    background:var(--ink); color:var(--paper); padding:10px 18px; border-radius:2px;
-    font-family:"Helvetica Neue",sans-serif; font-size:12px; letter-spacing:.24em; text-transform:uppercase;
+  .hero-year {
+    font-family:"Impact",sans-serif; font-size:clamp(56px, 8vw, 100px);
+    color:var(--brand); line-height:.9; margin:8px 0 6px;
   }
-  .today-strip b { font-family:"Impact",sans-serif; font-size:16px; letter-spacing:.05em; color:var(--brand); }
+  .hero-anniv {
+    display:inline-block; padding:4px 12px; background:var(--gold); color:#000;
+    font-family:"Helvetica Neue",sans-serif; font-size:11px; letter-spacing:.24em;
+    text-transform:uppercase; border-radius:2px; margin:0 0 14px; font-weight:700;
+  }
+  .hero-desc { color:var(--muted); font-size:15px; font-style:italic; margin:10px 0 18px; }
+  .hero-cta { display:flex; gap:10px; flex-wrap:wrap; }
+  .hero-cta button {
+    padding:10px 18px; background:var(--ink); color:var(--paper); border:none;
+    font-family:"Helvetica Neue",sans-serif; font-size:12px; letter-spacing:.15em;
+    text-transform:uppercase; cursor:pointer; border-radius:2px; font-weight:600;
+  }
+  .hero-cta button.ghost {
+    background:transparent; color:var(--ink); border:1px solid var(--line);
+  }
+  .hero-cta button:hover { background:var(--brand); color:#fff; border-color:var(--brand); }
+
+  /* Also today strip */
+  .also-today {
+    max-width:1280px; margin:0 auto 30px; padding:0 22px;
+  }
+  .also-today h2 {
+    font-size:20px; color:var(--brand); margin-bottom:14px;
+  }
+
+  /* Anniversary section */
+  .anniversary-block {
+    max-width:1280px; margin:0 auto 30px; padding:22px 26px;
+    background:linear-gradient(180deg, transparent, var(--paper-2));
+    border:1px solid var(--line); border-radius:4px;
+  }
+  .anniversary-block h3 {
+    color:var(--gold); font-size:16px; margin-bottom:14px;
+  }
+  .anniv-row { display:flex; gap:14px; overflow-x:auto; padding-bottom:6px; }
+  .anniv-pill {
+    display:flex; flex-direction:column; gap:2px;
+    padding:12px 18px; background:var(--card); border:1px solid var(--line);
+    border-left:4px solid var(--gold); border-radius:2px; cursor:pointer;
+    font-family:"Helvetica Neue",sans-serif; min-width:200px; flex-shrink:0;
+    transition: all .15s ease;
+  }
+  .anniv-pill:hover { border-color:var(--gold); transform:translateY(-2px); }
+  .anniv-pill .big { font-family:"Impact",sans-serif; font-size:24px; color:var(--gold); letter-spacing:.02em; }
+  .anniv-pill .name { font-size:14px; color:var(--ink); font-weight:600; margin-top:4px; }
+  .anniv-pill .tag { font-size:10px; color:var(--muted); letter-spacing:.2em; text-transform:uppercase; }
+
+  /* Section header */
+  .sec-hdr {
+    max-width:1280px; margin:30px auto 12px; padding:0 22px;
+    display:flex; align-items:center; justify-content:space-between; gap:14px;
+  }
+  .sec-hdr h2 {
+    font-size:24px; color:var(--ink);
+    border-bottom:3px solid var(--brand); padding-bottom:6px; display:inline-block;
+  }
+  .sec-hdr .sub {
+    color:var(--muted); font-size:12px; letter-spacing:.24em; text-transform:uppercase;
+    font-family:"Helvetica Neue",sans-serif;
+  }
 
   /* Controls */
   .controls {
-    max-width:1280px; margin:8px auto 20px; padding:0 22px;
+    max-width:1280px; margin:0 auto 20px; padding:0 22px;
     display:flex; align-items:center; gap:14px; flex-wrap:wrap;
   }
-  .ctrl { display:inline-flex; align-items:center; gap:8px; }
+  .ctrl { display:inline-flex; align-items:center; gap:8px; position:relative; }
   .ctrl label { font-size:10px; letter-spacing:.32em; text-transform:uppercase; color:var(--muted); font-family:"Helvetica Neue",sans-serif; }
-  input[type=date], input[type=search], select {
+  input[type=date], input[type=search], input[type=text], select {
     background:var(--paper-2); border:1px solid var(--line); color:var(--ink);
     padding:9px 12px; font-size:14px; border-radius:4px;
     font-family: "Helvetica Neue",sans-serif;
     transition: border-color .15s ease;
   }
-  input[type=date]:focus, input[type=search]:focus, select:focus {
-    outline:none; border-color:var(--brand);
-  }
+  input:focus, select:focus { outline:none; border-color:var(--brand); }
   input[type=search] { min-width:240px; }
   .chip {
     display:inline-flex; align-items:center; gap:6px;
@@ -149,15 +242,30 @@
     padding:7px 13px; border-radius:999px; cursor:pointer;
     font-size:11px; letter-spacing:.08em; text-transform:uppercase;
     font-family: "Helvetica Neue",sans-serif; color:var(--ink);
-    user-select:none;
-    transition: all .15s ease;
+    user-select:none; transition: all .15s ease;
   }
   .chip:hover { border-color:var(--brand); }
   .chip.on { background:var(--ink); color:var(--paper); border-color:var(--ink); }
   [data-theme="dark"] .chip.on { background:var(--brand); color:#000; border-color:var(--brand); }
   .chip .cnt { font-size:10px; opacity:.7; }
 
-  /* Count strip */
+  /* Autocomplete dropdown */
+  .ac-list {
+    position:absolute; top:100%; left:0; right:0; z-index:50;
+    background:var(--card); border:1px solid var(--line); border-top:none;
+    max-height:280px; overflow-y:auto; border-radius:0 0 4px 4px;
+    display:none;
+    box-shadow: 0 12px 24px -8px rgba(0,0,0,.3);
+  }
+  .ac-list.on { display:block; }
+  .ac-item {
+    padding:10px 14px; cursor:pointer; font-family:"Helvetica Neue",sans-serif;
+    font-size:13px; color:var(--ink); border-bottom:1px solid var(--line);
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .ac-item:hover, .ac-item.on { background:var(--paper-2); color:var(--brand); }
+  .ac-item .ac-cnt { font-size:10px; color:var(--muted); letter-spacing:.2em; }
+
   .count-strip {
     max-width:1280px; margin:0 auto 20px; padding:10px 22px;
     border-top:1px solid var(--line); border-bottom:1px solid var(--line);
@@ -168,7 +276,6 @@
   }
   .count-strip b { color:var(--ink); font-size:15px; }
 
-  /* Grid */
   .grid {
     max-width:1280px; margin:0 auto 60px; padding:0 22px;
     display:grid; gap:20px;
@@ -202,11 +309,16 @@
   .card-tipo.compleanno { color:var(--brand); font-weight:600; }
   .card-tipo.trofeo     { color:var(--gold); font-weight:600; }
   .card-age { font-size:10px; letter-spacing:.15em; color:var(--muted); text-transform:uppercase; font-family:"Helvetica Neue",sans-serif; }
+  .anniv-badge {
+    display:inline-block; padding:2px 8px; background:var(--gold); color:#000;
+    font-family:"Helvetica Neue",sans-serif; font-size:9px; letter-spacing:.18em;
+    text-transform:uppercase; border-radius:2px; margin-left:6px; font-weight:700;
+  }
 
   .card-title {
     font-size:22px; color:var(--ink); font-family:"Impact","Oswald",sans-serif;
     text-transform:uppercase; letter-spacing:.005em; line-height:1.08;
-    margin-top:8px; margin-bottom:0;
+    margin-top:8px;
   }
   .card-year {
     display:block; margin-top:8px;
@@ -232,6 +344,14 @@
   }
   .card.has-thumb .card-thumb { display:block; }
 
+  .fav-btn {
+    position:absolute; top:12px; right:12px; z-index:2;
+    background:transparent; border:none; cursor:pointer; padding:6px; font-size:20px;
+    color:var(--muted); transition: color .15s, transform .15s;
+  }
+  .fav-btn:hover { transform:scale(1.15); color:var(--brand); }
+  .fav-btn.on { color:var(--brand); }
+
   .empty {
     max-width:1280px; margin:80px auto; padding:40px 22px; text-align:center;
     color:var(--muted); font-style:italic;
@@ -248,13 +368,15 @@
 
   /* Modal */
   .modal-bg {
-    position:fixed; inset:0; background:rgba(0,0,0,.6); backdrop-filter: blur(4px);
+    position:fixed; inset:0; background:rgba(0,0,0,.6); backdrop-filter: blur(6px);
     z-index:200; display:none; align-items:center; justify-content:center; padding:20px;
+    animation: modalFade .2s ease;
   }
+  @keyframes modalFade { from { opacity:0; } to { opacity:1; } }
   .modal-bg.on { display:flex; }
   .modal {
     background:var(--card); border:1px solid var(--line); border-top:6px solid var(--brand);
-    border-radius:4px; padding:26px 28px 24px; max-width:640px; width:100%;
+    border-radius:4px; padding:26px 28px 24px; max-width:680px; width:100%;
     max-height:90vh; overflow-y:auto;
     box-shadow: 0 40px 80px -20px rgba(0,0,0,.6);
     position:relative;
@@ -264,9 +386,12 @@
     color:var(--muted); font-size:24px; cursor:pointer; padding:4px 10px; line-height:1;
   }
   .modal-close:hover { color:var(--brand); }
-  .modal-tipo { font-size:11px; letter-spacing:.32em; text-transform:uppercase; color:var(--brand); font-family:"Helvetica Neue",sans-serif; font-weight:600; }
-  .modal-name { font-family:"Impact",sans-serif; font-size:36px; text-transform:uppercase; margin:8px 0; line-height:1; }
-  .modal-year { font-family:"Impact",sans-serif; font-size:52px; color:var(--brand); margin:8px 0 12px; line-height:1; }
+  .modal-tipo { font-size:11px; letter-spacing:.32em; text-transform:uppercase; color:var(--brand); font-family:"Helvetica Neue",sans-serif; font-weight:700; }
+  .modal-name { font-family:"Impact",sans-serif; font-size:40px; text-transform:uppercase; margin:10px 0 6px; line-height:1; }
+  .modal-year { font-family:"Impact",sans-serif; font-size:64px; color:var(--brand); margin:6px 0; line-height:.9; }
+  .modal-anniv { display:inline-block; padding:4px 12px; background:var(--gold); color:#000;
+    font-family:"Helvetica Neue",sans-serif; font-size:11px; letter-spacing:.24em;
+    text-transform:uppercase; border-radius:2px; margin:6px 0 14px; font-weight:700; }
   .modal-desc { color:var(--muted); font-style:italic; margin:10px 0; }
   .modal-meta { margin-top:14px; padding-top:14px; border-top:1px solid var(--line); font-family:"Helvetica Neue",sans-serif; font-size:13px; color:var(--muted); }
   .modal-meta div { padding:4px 0; }
@@ -277,7 +402,7 @@
   }
   .modal-wiki .wiki-head { display:flex; gap:14px; align-items:flex-start; }
   .modal-wiki .wiki-photo {
-    width:100px; height:100px; object-fit:cover; border-radius:4px; flex-shrink:0;
+    width:110px; height:110px; object-fit:cover; border-radius:4px; flex-shrink:0;
     background:var(--paper-3);
   }
   .modal-wiki .wiki-extract { font-size:13.5px; line-height:1.5; }
@@ -302,12 +427,19 @@
     display:flex; justify-content:space-between;
   }
   .modal-related-item:hover { background:var(--paper-3); }
+  .modal-suggest {
+    margin-top:16px; padding-top:14px; border-top:1px solid var(--line);
+  }
+  .modal-suggest a {
+    font-family:"Helvetica Neue",sans-serif; font-size:11px; letter-spacing:.24em;
+    text-transform:uppercase; color:var(--muted);
+  }
+  .modal-suggest a:hover { color:var(--brand); }
 
-  /* Views (page switcher) */
+  /* Views */
   .view { display:none; }
   .view.on { display:block; }
 
-  /* Stats view */
   .stats-grid {
     max-width:1280px; margin:20px auto 60px; padding:0 22px;
     display:grid; gap:20px;
@@ -326,21 +458,20 @@
   .bar-row .bar-fill { height:100%; background:var(--brand); border-radius:8px; }
   .bar-row .bar-val { min-width:40px; text-align:right; color:var(--ink); }
 
-  /* Nav tabs */
   .tabs {
     max-width:1280px; margin:0 auto; padding:0 22px;
     display:flex; gap:8px; border-bottom:1px solid var(--line);
+    overflow-x:auto;
   }
   .tab {
     padding:14px 20px; cursor:pointer; border:none; background:transparent;
     color:var(--muted); font-family:"Helvetica Neue",sans-serif; font-size:12px;
     letter-spacing:.24em; text-transform:uppercase; border-bottom:3px solid transparent;
-    margin-bottom:-1px;
+    margin-bottom:-1px; white-space:nowrap;
   }
   .tab:hover { color:var(--ink); }
   .tab.on { color:var(--brand); border-bottom-color:var(--brand); }
 
-  /* Footer */
   footer {
     border-top:1px solid var(--line);
     margin-top:40px; padding:28px 22px;
@@ -350,7 +481,6 @@
   footer a { color:var(--muted); }
   footer a:hover { color:var(--brand); }
 
-  /* Toast */
   .toast {
     position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
     background:var(--ink); color:var(--paper); padding:12px 20px; border-radius:4px;
@@ -364,14 +494,19 @@
   @media (max-width: 600px) {
     .masthead { padding:16px; }
     .brand-title { font-size:22px; }
-    .hero { margin-top:20px; }
+    .hero-of-day { margin-top:20px; }
     .controls { gap:8px; }
     input[type=search] { min-width:100%; }
+    .hero-title { font-size:26px; }
+    .hero-year { font-size:56px; }
+    .modal-name { font-size:28px; }
+    .modal-year { font-size:44px; }
   }
   @media print {
-    .masthead, .controls, .count-strip, footer, .tabs, .icon-btn { display:none !important; }
+    .masthead, .controls, .count-strip, footer, .tabs, .icon-btn, .fav-btn, .hero-cta { display:none !important; }
     .card { break-inside:avoid; box-shadow:none; }
     .grid { grid-template-columns:1fr 1fr; gap:8px; }
+    .hero-of-day-inner { grid-template-columns:1fr 1fr; }
   }
 </style>
 </head>
@@ -379,11 +514,11 @@
 
 <div class="masthead">
   <div class="masthead-inner">
-    <div class="brand-left">
+    <div class="brand-left" onclick="goHome()">
       <div class="brand-logo" aria-hidden="true"></div>
       <div class="brand-title">
         Superbasket
-        <small>Calendario Storico</small>
+        <small>Calendario Storico · 1891–2026</small>
       </div>
     </div>
     <div class="mast-tools">
@@ -395,24 +530,27 @@
 </div>
 
 <div class="tabs">
-  <button class="tab on" data-view="calendar">Calendario</button>
+  <button class="tab on" data-view="calendar">Oggi</button>
+  <button class="tab" data-view="favorites">★ Preferiti</button>
   <button class="tab" data-view="stats">Statistiche</button>
   <button class="tab" data-view="about">Progetto</button>
 </div>
 
-<!-- ==== Calendar view ==== -->
 <section class="view on" id="view-calendar">
 
-  <section class="hero">
-    <div class="hero-eyebrow">Edizione del <span id="today-str">—</span></div>
-    <h1 class="hero-title">Oggi <span>nella storia</span> del basket italiano</h1>
-    <p class="hero-sub">Un evento al giorno dall'archivio storico Superbasket — 5.680 eventi tra compleanni, trofei, ricordi. Dal 1891 al 2026.</p>
-    <div class="today-strip">
-      <span>Oggi</span>
-      <b id="today-count">—</b>
-      <span>eventi in archivio</span>
-    </div>
+  <!-- Hero of the day -->
+  <section class="hero-of-day" id="hero-of-day"></section>
+
+  <!-- Anniversary block -->
+  <section class="anniversary-block" id="anniv-block" style="display:none">
+    <h3>ANNIVERSARI DEL GIORNO</h3>
+    <div class="anniv-row" id="anniv-row"></div>
   </section>
+
+  <div class="sec-hdr">
+    <h2 id="grid-title">Anche oggi in archivio</h2>
+    <span class="sub" id="grid-sub">—</span>
+  </div>
 
   <section class="controls">
     <div class="ctrl">
@@ -422,7 +560,8 @@
     </div>
     <div class="ctrl">
       <label>Cerca</label>
-      <input type="search" id="search" placeholder="Giocatore, allenatore, squadra…">
+      <input type="search" id="search" placeholder="Giocatore, allenatore, squadra…" autocomplete="off">
+      <div class="ac-list" id="ac-list"></div>
     </div>
     <div class="ctrl" id="chips"></div>
     <div class="ctrl" style="margin-left:auto">
@@ -447,29 +586,58 @@
 
 </section>
 
-<!-- ==== Stats view ==== -->
+<section class="view" id="view-favorites">
+  <section class="hero-of-day">
+    <div style="padding:20px">
+      <div class="hero-eyebrow">La tua collezione</div>
+      <h1 style="font-family:'Impact'; font-size:44px; margin:8px 0; text-transform:uppercase; color:var(--brand);">I miei preferiti</h1>
+      <p style="color:var(--muted); font-size:15px;">Eventi che hai salvato — sincronizzati sul tuo dispositivo.</p>
+    </div>
+  </section>
+  <div class="grid" id="favorites-grid"></div>
+  <div class="empty" id="favorites-empty" style="display:none">
+    Nessun preferito ancora. Tocca la stella ★ su qualsiasi evento per salvarlo qui.
+  </div>
+</section>
+
 <section class="view" id="view-stats">
-  <section class="hero">
-    <div class="hero-eyebrow">Archivio in numeri</div>
-    <h1 class="hero-title">Statistiche <span>dell'archivio</span></h1>
-    <p class="hero-sub">Distribuzione degli eventi per tipo, decennio, mese. Fonte: 200.000 pagine digitalizzate dell'archivio Superbasket.</p>
+  <section class="hero-of-day">
+    <div style="padding:20px">
+      <div class="hero-eyebrow">Archivio in numeri</div>
+      <h1 style="font-family:'Impact'; font-size:44px; margin:8px 0; text-transform:uppercase; color:var(--brand);">Statistiche</h1>
+      <p style="color:var(--muted); font-size:15px;">Distribuzione degli eventi per tipo, decennio, mese. Fonte: 200.000 pagine digitalizzate.</p>
+    </div>
   </section>
   <div class="stats-grid" id="stats-grid">
     <div class="stat-card"><h3>Caricamento…</h3></div>
   </div>
 </section>
 
-<!-- ==== About view ==== -->
 <section class="view" id="view-about">
-  <section class="hero">
-    <div class="hero-eyebrow">Il progetto</div>
-    <h1 class="hero-title">Un evento al giorno <span>dall'archivio</span></h1>
-    <p class="hero-sub">Il Calendario Storico Superbasket nasce per valorizzare le 200.000 pagine digitalizzate dell'archivio della rivista.</p>
-    <div style="max-width:720px; font-size:15.5px; line-height:1.7;">
-      <p><strong>L'idea.</strong> Ogni giorno dell'anno c'è una storia: il compleanno di un giocatore o allenatore, la vittoria di un trofeo, un anniversario. Un sito, un'app, una pagina social può pubblicare quotidianamente una news storica pescata dall'archivio — un modo semplice per far conoscere la profondità di quello che c'è dietro.</p>
-      <p><strong>I dati.</strong> Prima versione: 5.680 eventi tra 1891 e 2026 — principalmente compleanni di giocatori di Serie A, A1, A2, allenatori e NBA italiani, più 187 vittorie di trofeo e 46 anniversari di morte. Le colonne <em>Fonte rivista</em>, <em>Articolo</em> e <em>Foto</em> sono predisposte per collegare i dati alle scansioni digitali quando disponibili.</p>
-      <p><strong>Roadmap.</strong> (1) Integrazione Wikipedia per foto + mini-biografia automatica di ogni giocatore. (2) Pagine detaglio per ciascun soggetto con tutti i suoi eventi. (3) Auto-post giornaliero su Instagram/Telegram/Facebook. (4) Cross-link con le pagine digitalizzate della rivista. (5) API pubblica per app terze.</p>
-      <p><strong>Contatti + fonti:</strong> il file sorgente è <em>Calendario_Storico_Superbasket_22_8_26.xlsx</em>. Feed RSS: <a href="feed.xml">/feed.xml</a>. API JSON: <a href="v2/months/">/v2/months/</a>.</p>
+  <section class="hero-of-day">
+    <div style="padding:20px 24px">
+      <div class="hero-eyebrow">Il progetto</div>
+      <h1 style="font-family:'Impact'; font-size:44px; margin:8px 0; text-transform:uppercase;">Un evento al giorno <span style="color:var(--brand)">dall'archivio</span></h1>
+      <div style="max-width:720px; font-size:15.5px; line-height:1.7; margin-top:14px;">
+        <p><strong>L'idea.</strong> Ogni giorno dell'anno c'è una storia: il compleanno di un giocatore o allenatore, la vittoria di un trofeo, un anniversario. Un sito, un'app, una pagina social può pubblicare quotidianamente una news storica pescata dall'archivio — un modo semplice per far conoscere la profondità di quello che c'è dietro.</p>
+        <p><strong>I dati.</strong> Prima versione: <b>5.680 eventi</b> tra 1891 e 2026 — principalmente compleanni di giocatori di Serie A, A1, A2, allenatori e NBA italiani, più 187 vittorie di trofeo e 46 anniversari di morte. Le colonne <em>Fonte rivista</em>, <em>Articolo</em> e <em>Foto</em> sono predisposte per collegare i dati alle scansioni digitali quando disponibili.</p>
+        <p><strong>Roadmap.</strong></p>
+        <ol>
+          <li>Bot auto-post giornaliero Instagram/Telegram/Facebook con card OG generata dinamicamente</li>
+          <li>Editorial curation: 1 «hero event» al giorno con narrazione lunga + audio TTS</li>
+          <li>Wikidata SPARQL bulk enrichment: pre-fetch foto + bio + team + posizione per tutti i 5.447 soggetti</li>
+          <li>Cross-validation dati: report discrepanze nomi/date da correggere</li>
+          <li>Pagine dedicate per squadra (Virtus/Olimpia/Fortitudo) e stagione (Scudetto 1983)</li>
+          <li>Cross-link con scansioni delle pagine originali della rivista</li>
+          <li>iOS Live Activity widget per l'evento del giorno</li>
+        </ol>
+        <p><strong>Feed + API + fonti.</strong>
+          <a href="feed.xml">RSS</a> ·
+          <a href="v2/stats.json">Stats JSON</a> ·
+          <a href="v2/months/">Events per mese</a> ·
+          <a href="https://github.com/vibeach/calendario-basket">Repository GitHub</a>
+        </p>
+      </div>
     </div>
   </section>
 </section>
@@ -481,11 +649,11 @@
 <div class="toast" id="toast">—</div>
 
 <footer>
-  <div><strong>Calendario Storico Superbasket</strong> · Versione 2.0</div>
+  <div><strong>Calendario Storico Superbasket</strong> · Versione 3.0</div>
   <div style="margin-top:6px">Archivio 1891 – 2026 · 5.680 eventi · 5.447 soggetti</div>
   <div style="margin-top:10px">
     <a href="feed.xml">RSS</a> ·
-    <a href="v2/stats.json">API JSON</a> ·
+    <a href="v2/stats.json">API</a> ·
     <a href="https://github.com/vibeach/calendario-basket">GitHub</a>
   </div>
 </footer>
@@ -510,22 +678,27 @@ async function getMonth(m) {
 const wikiCache = new Map();
 async function fetchWiki(name) {
   if (wikiCache.has(name)) return wikiCache.get(name);
+  const cached = sessionStorage.getItem("wiki:"+name);
+  if (cached) { try { const d = JSON.parse(cached); wikiCache.set(name, d); return d; } catch {} }
   try {
-    const searchRes = await fetch(`https://it.wikipedia.org/w/rest.php/v1/search/title?q=${encodeURIComponent(name)}&limit=1`);
-    const searchData = await searchRes.json();
-    if (!searchData.pages || !searchData.pages.length) { wikiCache.set(name, null); return null; }
-    const page = searchData.pages[0];
-    const summaryRes = await fetch(`https://it.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(page.key)}`);
-    const summary = await summaryRes.json();
+    const res = await fetch(`https://it.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(name.replaceAll(" ","_"))}`);
+    if (!res.ok) {
+      const searchRes = await fetch(`https://it.wikipedia.org/w/rest.php/v1/search/title?q=${encodeURIComponent(name)}&limit=1`);
+      const searchData = await searchRes.json();
+      if (!searchData.pages || !searchData.pages.length) { wikiCache.set(name, null); return null; }
+      const page = searchData.pages[0];
+      const s2 = await fetch(`https://it.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(page.key)}`);
+      const summary = await s2.json();
+      if (summary.type === "disambiguation" || !summary.extract) { wikiCache.set(name, null); return null; }
+      const data = { title: summary.title, extract: summary.extract, thumbnail: summary.thumbnail?.source, url: summary.content_urls?.desktop?.page };
+      wikiCache.set(name, data);
+      try { sessionStorage.setItem("wiki:"+name, JSON.stringify(data)); } catch {}
+      return data;
+    }
+    const summary = await res.json();
     if (summary.type === "disambiguation" || !summary.extract) { wikiCache.set(name, null); return null; }
-    const data = {
-      title: summary.title,
-      extract: summary.extract,
-      thumbnail: summary.thumbnail?.source,
-      url: summary.content_urls?.desktop?.page,
-    };
+    const data = { title: summary.title, extract: summary.extract, thumbnail: summary.thumbnail?.source, url: summary.content_urls?.desktop?.page };
     wikiCache.set(name, data);
-    // Also persist to sessionStorage
     try { sessionStorage.setItem("wiki:"+name, JSON.stringify(data)); } catch {}
     return data;
   } catch (e) {
@@ -533,29 +706,58 @@ async function fetchWiki(name) {
     return null;
   }
 }
-// Preload session-cached wiki
+
+// Preload session-cached
 try {
   for (let i=0; i<sessionStorage.length; i++) {
     const k = sessionStorage.key(i);
-    if (k?.startsWith("wiki:")) {
-      wikiCache.set(k.slice(5), JSON.parse(sessionStorage.getItem(k)));
-    }
+    if (k?.startsWith("wiki:")) wikiCache.set(k.slice(5), JSON.parse(sessionStorage.getItem(k)));
   }
 } catch {}
 
 let allActiveTipi = new Set(TIPO_ORDER);
-let currentEvents = [];
+let heroesData = null;
+let subjectsIndex = null;
+let statsData = null;
 
 const q = sel => document.querySelector(sel);
+
+// ==== Favorites ====
+function getFavs() {
+  try { return new Set(JSON.parse(localStorage.getItem("favs")||"[]")); } catch { return new Set(); }
+}
+function saveFavs(s) { localStorage.setItem("favs", JSON.stringify([...s])); }
+function toggleFav(id) {
+  const s = getFavs();
+  if (s.has(id)) { s.delete(id); toast("Rimosso dai preferiti"); }
+  else { s.add(id); toast("★ Aggiunto ai preferiti"); }
+  saveFavs(s);
+  document.querySelectorAll(`.fav-btn[data-id="${id}"]`).forEach(b => b.classList.toggle("on", s.has(id)));
+}
+
+// ==== Routing (hash-based) ====
+// Routes: #/ (today), #/d/YYYY-MM-DD, #/p/{name}, #/favorites, #/stats, #/about
+function parseHash() {
+  const h = location.hash.slice(1) || "/";
+  if (h === "/") return { view:"calendar" };
+  if (h.startsWith("/d/")) return { view:"calendar", date: h.slice(3) };
+  if (h.startsWith("/p/")) return { view:"calendar", person: decodeURIComponent(h.slice(3)) };
+  if (h.startsWith("/favorites")) return { view:"favorites" };
+  if (h.startsWith("/stats")) return { view:"stats" };
+  if (h.startsWith("/about")) return { view:"about" };
+  return { view:"calendar" };
+}
+function setRoute(route) {
+  location.hash = route;
+}
+function goHome() { setRoute("/"); }
 
 // ==== Tabs ====
 document.querySelectorAll(".tab").forEach(btn => {
   btn.onclick = () => {
-    document.querySelectorAll(".tab").forEach(b => b.classList.toggle("on", b===btn));
-    document.querySelectorAll(".view").forEach(v => v.classList.remove("on"));
-    document.getElementById("view-"+btn.dataset.view).classList.add("on");
-    if (btn.dataset.view === "stats") loadStats();
-    window.scrollTo({top:0, behavior:"smooth"});
+    const v = btn.dataset.view;
+    if (v === "calendar") setRoute("/");
+    else setRoute("/"+v);
   };
 });
 
@@ -567,22 +769,15 @@ function setTheme(t) {
 setTheme(localStorage.getItem("theme") || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
 q("#theme-btn").onclick = () => setTheme(document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark");
 
-// ==== Share ====
+// ==== Share page ====
 function toast(msg) {
-  const t = q("#toast");
-  t.textContent = msg;
-  t.classList.add("on");
+  const t = q("#toast"); t.textContent = msg; t.classList.add("on");
   setTimeout(() => t.classList.remove("on"), 2000);
 }
 q("#share-page").onclick = async () => {
-  const url = location.href;
-  const title = "Calendario Storico Superbasket";
-  if (navigator.share) {
-    try { await navigator.share({title, url}); } catch {}
-  } else {
-    await navigator.clipboard.writeText(url);
-    toast("Link copiato");
-  }
+  const url = location.href; const title = "Calendario Storico Superbasket";
+  if (navigator.share) { try { await navigator.share({title, url}); } catch {} }
+  else { await navigator.clipboard.writeText(url); toast("Link copiato"); }
 };
 
 // ==== Init ====
@@ -590,23 +785,22 @@ async function boot() {
   const today = new Date();
   const iso = `${today.getFullYear()}-${pad(today.getMonth()+1)}-${pad(today.getDate())}`;
   q("#datepick").value = iso;
-  q("#today-str").textContent = `${today.getDate()} ${monthNames[today.getMonth()]} ${today.getFullYear()}`;
 
-  // Load current month
-  const events = await getMonth(today.getMonth()+1);
-  const todayCount = events.filter(e => e.d === today.getDate()).length;
-  q("#today-count").textContent = todayCount;
+  // Load core data in parallel
+  const [monthData, stats, heroes, subjects] = await Promise.all([
+    getMonth(today.getMonth()+1),
+    fetch("v2/stats.json").then(r => r.json()),
+    fetch("v2/heroes.json").then(r => r.json()),
+    fetch("v2/subjects.json").then(r => r.json())
+  ]);
+  statsData = stats; heroesData = heroes; subjectsIndex = subjects;
 
-  // Build chips based on overall stats (loaded lazily)
-  const statsRes = await fetch("v2/stats.json");
-  const stats = await statsRes.json();
+  // Build chips
   const chipEl = q("#chips");
   TIPO_ORDER.forEach(t => {
-    const cnt = stats.byType[t];
-    if (!cnt) return;
+    const cnt = stats.byType[t]; if (!cnt) return;
     const el = document.createElement("span");
-    el.className = "chip on";
-    el.dataset.tipo = t;
+    el.className = "chip on"; el.dataset.tipo = t;
     el.innerHTML = `${TIPO_LABEL[t]} <span class="cnt">${cnt}</span>`;
     el.onclick = () => {
       if (allActiveTipi.has(t)) { allActiveTipi.delete(t); el.classList.remove("on"); }
@@ -616,24 +810,161 @@ async function boot() {
     chipEl.appendChild(el);
   });
 
-  q("#datepick").oninput = render;
-  q("#today-btn").onclick = () => {
-    q("#datepick").value = iso;
-    q("#search").value="";
-    render();
-  };
-  q("#search").oninput = debounce(render, 200);
+  q("#datepick").oninput = () => setRoute("/d/"+q("#datepick").value);
+  q("#today-btn").onclick = () => { setRoute("/"); q("#search").value=""; };
+  q("#search").oninput = debounce(onSearchInput, 150);
+  q("#search").onblur = () => setTimeout(() => q("#ac-list").classList.remove("on"), 200);
   q("#sort").onchange = render;
   q("#random-btn").onclick = randomEvent;
 
   q("#loading").style.display = "none";
   q("#grid").style.display = "";
-  render();
+  window.addEventListener("hashchange", applyRoute);
+  applyRoute();
+}
+
+async function applyRoute() {
+  const r = parseHash();
+  document.querySelectorAll(".tab").forEach(b => b.classList.toggle("on", b.dataset.view === (r.view || "calendar")));
+  document.querySelectorAll(".view").forEach(v => v.classList.remove("on"));
+
+  if (r.view === "favorites") { document.getElementById("view-favorites").classList.add("on"); renderFavorites(); }
+  else if (r.view === "stats") { document.getElementById("view-stats").classList.add("on"); loadStats(); }
+  else if (r.view === "about") { document.getElementById("view-about").classList.add("on"); }
+  else {
+    document.getElementById("view-calendar").classList.add("on");
+    if (r.date) q("#datepick").value = r.date;
+    if (r.person) { openPersonProfile(r.person); }
+    else { renderHero(); render(); }
+  }
+  window.scrollTo({top:0, behavior:"smooth"});
 }
 
 function debounce(fn, ms) {
-  let t;
-  return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); };
+  let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); };
+}
+
+// ==== Autocomplete search ====
+let acIndex = -1;
+function onSearchInput() {
+  const v = q("#search").value.trim().toLowerCase();
+  const list = q("#ac-list");
+  if (v.length < 2) { list.classList.remove("on"); render(); return; }
+  const matches = subjectsIndex
+    .filter(s => s.n.toLowerCase().includes(v))
+    .slice(0, 10);
+  if (!matches.length) { list.classList.remove("on"); render(); return; }
+  list.innerHTML = matches.map((s,i) => `
+    <div class="ac-item" data-name="${escapeHtml(s.n)}" data-index="${i}">
+      <span>${escapeHtml(s.n)}</span>
+      <span class="ac-cnt">${s.c} evento${s.c>1?"i":""}</span>
+    </div>
+  `).join("");
+  list.classList.add("on"); acIndex = -1;
+  list.querySelectorAll(".ac-item").forEach(el => {
+    el.onclick = () => { setRoute("/p/"+encodeURIComponent(el.dataset.name)); list.classList.remove("on"); };
+  });
+  render();
+}
+
+// ==== Person profile view ====
+async function openPersonProfile(name) {
+  q("#grid-title").textContent = name;
+  q("#grid-sub").textContent = "Tutti gli eventi";
+  q("#hero-of-day").innerHTML = "";
+  q("#anniv-block").style.display = "none";
+
+  const ids = subjectsIndex.find(s => s.n === name)?.e || [];
+  const events = [];
+  for (const id of ids) {
+    for (let m=1; m<=12; m++) {
+      const evs = await getMonth(m);
+      const found = evs.find(e => e.id === id);
+      if (found) events.push(found);
+    }
+  }
+  events.sort((a,b) => (b.y||0) - (a.y||0));
+  q("#result-count").textContent = events.length;
+  q("#filter-summary").textContent = `Profilo di ${name}`;
+  const grid = q("#grid"); grid.innerHTML = "";
+  events.forEach(e => grid.appendChild(makeCard(e, new Date().getFullYear())));
+  q("#empty").style.display = events.length ? "none" : "";
+
+  // Wikipedia bio at top
+  const wiki = await fetchWiki(name);
+  if (wiki) {
+    const hero = q("#hero-of-day");
+    hero.innerHTML = `
+      <div class="hero-of-day-inner">
+        <div class="hero-media">
+          ${wiki.thumbnail ? `<img src="${wiki.thumbnail}" alt="">` : `<div class="no-media">${name.split(" ").map(x=>x[0]||"").join("").slice(0,3).toUpperCase()}</div>`}
+        </div>
+        <div class="hero-content">
+          <div class="hero-eyebrow">Profilo</div>
+          <h1 class="hero-title">${escapeHtml(wiki.title)}</h1>
+          <p class="hero-desc">${escapeHtml(wiki.extract)}</p>
+          <div class="hero-cta">
+            ${wiki.url ? `<a href="${wiki.url}" target="_blank"><button>Leggi su Wikipedia ↗</button></a>` : ""}
+            <button class="ghost" onclick="goHome()">← Torna al calendario</button>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+}
+
+// ==== Render ====
+async function renderHero() {
+  const dateVal = q("#datepick").value;
+  const [Y, M, D] = dateVal.split("-").map(Number);
+  const key = `${pad(M)}-${pad(D)}`;
+  const hero = heroesData[key];
+  if (!hero) return;
+  const evs = await getMonth(M);
+  const heroEv = evs.find(e => e.id === hero.heroId);
+  if (!heroEv) return;
+
+  const wiki = heroEv.soggetto ? await fetchWiki(heroEv.soggetto) : null;
+  const tipoLbl = TIPO_LABEL[heroEv.tipo] || heroEv.tipo;
+  const anniv = heroEv.anniv;
+
+  const el = q("#hero-of-day");
+  el.innerHTML = `
+    <div class="hero-of-day-inner">
+      <div class="hero-media">
+        ${wiki?.thumbnail ? `<img src="${wiki.thumbnail}" alt="">` : `<div class="no-media">${escapeHtml((heroEv.soggetto||"").split(" ").map(x=>x[0]||"").join("").slice(0,3).toUpperCase())}</div>`}
+      </div>
+      <div class="hero-content">
+        <div class="hero-eyebrow">${D} ${monthNames[M-1]} · Evento del giorno</div>
+        <span class="hero-tipo">${tipoLbl}</span>
+        <h1 class="hero-title">${escapeHtml(heroEv.soggetto || heroEv.desc || "—")}</h1>
+        <div class="hero-year">${heroEv.y || ""}</div>
+        ${anniv ? `<div class="hero-anniv">🏆 ${anniv} oggi</div>` : ""}
+        ${heroEv.desc && heroEv.desc !== heroEv.soggetto ? `<p class="hero-desc">${escapeHtml(heroEv.desc)}</p>` : ""}
+        ${wiki?.extract ? `<p class="hero-desc">${escapeHtml(wiki.extract.slice(0,220))}${wiki.extract.length>220?'…':''}</p>` : ""}
+        <div class="hero-cta">
+          <button onclick="openModal(${heroEv.id})">Approfondisci →</button>
+          <button class="ghost" onclick="shareModal(${heroEv.id},'whatsapp')">Condividi</button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Anniversary block: show 25/50/75/100 year anniversaries for today
+  const anniversary = evs.filter(e => e.d === D && e.anniv);
+  if (anniversary.length) {
+    q("#anniv-block").style.display = "";
+    q("#anniv-row").innerHTML = anniversary.slice(0,10).map(e => `
+      <div class="anniv-pill" onclick="openModal(${e.id})">
+        <div class="tag">${TIPO_LABEL[e.tipo]||e.tipo}</div>
+        <div class="big">${e.anniv}</div>
+        <div class="name">${escapeHtml(e.soggetto || e.desc || "—")}</div>
+        <div class="tag">${e.y}</div>
+      </div>
+    `).join("");
+  } else {
+    q("#anniv-block").style.display = "none";
+  }
 }
 
 async function render() {
@@ -642,9 +973,7 @@ async function render() {
   const sortMode = q("#sort").value;
 
   let filtered = [];
-
   if (searchVal) {
-    // Search across all months
     for (let m=1; m<=12; m++) {
       const evs = await getMonth(m);
       for (const e of evs) {
@@ -665,28 +994,20 @@ async function render() {
   else if (sortMode === "type") filtered.sort((a,b) => TIPO_ORDER.indexOf(a.tipo) - TIPO_ORDER.indexOf(b.tipo) || (b.y||0)-(a.y||0));
   else if (sortMode === "name") filtered.sort((a,b) => (a.soggetto||"").localeCompare(b.soggetto||"","it"));
 
-  currentEvents = filtered;
   q("#result-count").textContent = filtered.length;
   const [Y, M, D] = dateVal.split("-").map(Number);
   q("#filter-summary").textContent = searchVal
-    ? `Ricerca: "${searchVal}" (tutti i giorni)`
-    : `${D} ${monthNames[M-1]} — tutti gli anni`;
+    ? `Ricerca: "${searchVal}"` : `${D} ${monthNames[M-1]} — tutti gli anni`;
+  q("#grid-title").textContent = searchVal ? "Risultati ricerca" : "Anche oggi in archivio";
+  q("#grid-sub").textContent = searchVal ? `${filtered.length} eventi` : `${D} ${monthNames[M-1]}`;
 
   const CAP = 400;
   const capped = filtered.slice(0, CAP);
-  const grid = q("#grid");
-  grid.innerHTML = "";
-
+  const grid = q("#grid"); grid.innerHTML = "";
   if (!capped.length) { q("#empty").style.display = ""; grid.style.display = "none"; return; }
   q("#empty").style.display = "none"; grid.style.display = "";
-
-  const now = new Date();
-  const nowY = now.getFullYear();
-
-  for (const e of capped) {
-    grid.appendChild(makeCard(e, nowY));
-  }
-
+  const nowY = new Date().getFullYear();
+  for (const e of capped) grid.appendChild(makeCard(e, nowY));
   if (filtered.length > CAP) {
     const more = document.createElement("div");
     more.style = "grid-column:1/-1; text-align:center; padding:20px; color:var(--muted); font-family:sans-serif; font-size:12px; letter-spacing:.15em; text-transform:uppercase;";
@@ -700,45 +1021,41 @@ function makeCard(e, nowY) {
   const div = document.createElement("article");
   div.className = "card " + cls;
   div.tabIndex = 0;
-
-  let title = e.soggetto || e.desc || "—";
+  const isFav = getFavs().has(e.id);
   let ageStr = "";
   if (e.tipo === "Compleanno" && e.y) ageStr = `${nowY - e.y} anni`;
   else if (e.tipo === "Anniversario morte" && e.y) ageStr = `da ${nowY - e.y} anni`;
-
   const meta = [];
   if (e.date) meta.push(`<b>${e.date}</b>`);
   if (e.nascita) meta.push(escapeHtml(e.nascita));
-  if (e.morte) meta.push(`✝ ${escapeHtml(e.morte)}`);
-
+  if (e.morte) meta.push(`✝ ${escapeHtml(String(e.morte))}`);
   const tipoLbl = TIPO_LABEL[e.tipo] || e.tipo;
+
   div.innerHTML = `
+    <button class="fav-btn ${isFav?"on":""}" data-id="${e.id}" title="Aggiungi ai preferiti">★</button>
     <div class="card-topline">
-      <span class="card-tipo ${cls}">${tipoLbl}</span>
+      <span class="card-tipo ${cls}">${tipoLbl}${e.anniv?`<span class="anniv-badge">${e.anniv}</span>`:""}</span>
       <span class="card-age">${ageStr}</span>
     </div>
-    <div class="card-title">${escapeHtml(title)}</div>
+    <div class="card-title">${escapeHtml(e.soggetto || e.desc || "—")}</div>
     <div class="card-year">${e.y || ""}</div>
-    ${e.desc && e.desc !== title ? `<div class="card-desc">${escapeHtml(e.desc)}</div>` : ""}
+    ${e.desc && e.desc !== e.soggetto ? `<div class="card-desc">${escapeHtml(e.desc)}</div>` : ""}
     <img class="card-thumb" alt="" loading="lazy">
     <div class="card-meta">${meta.join(" · ")}</div>
   `;
-  div.onclick = () => openModal(e);
-  div.onkeydown = ev => { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); openModal(e); } };
-
-  // Lazy Wikipedia thumbnail (only for Compleanno + subjects with real names)
-  if (e.tipo === "Compleanno" && e.soggetto) {
-    lazyWikiThumb(div, e.soggetto);
-  }
-
+  div.onclick = (ev) => {
+    if (ev.target.classList.contains("fav-btn")) { ev.stopPropagation(); toggleFav(e.id); return; }
+    openModal(e.id);
+  };
+  div.onkeydown = ev => { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); openModal(e.id); } };
+  if (e.tipo === "Compleanno" && e.soggetto) lazyWikiThumb(div, e.soggetto);
   return div;
 }
 
 const io = new IntersectionObserver(entries => {
   for (const en of entries) {
     if (en.isIntersecting) {
-      const el = en.target;
-      io.unobserve(el);
+      const el = en.target; io.unobserve(el);
       const name = el.dataset.wikiName;
       fetchWiki(name).then(data => {
         if (data?.thumbnail) {
@@ -748,30 +1065,40 @@ const io = new IntersectionObserver(entries => {
       });
     }
   }
-}, { rootMargin: "200px" });
+}, { rootMargin: "300px" });
 
 function lazyWikiThumb(cardEl, name) {
   cardEl.dataset.wikiName = name;
   io.observe(cardEl);
 }
 
-async function openModal(e) {
-  const bg = q("#modal-bg");
-  const mc = q("#modal-content");
+// ==== Modal ====
+async function openModal(id) {
+  const e = await findById(id);
+  if (!e) return;
+  const bg = q("#modal-bg"); const mc = q("#modal-content");
   const cls = TIPO_CLASS[e.tipo] || "altro";
   const tipoLbl = TIPO_LABEL[e.tipo] || e.tipo;
   const nowY = new Date().getFullYear();
+  const isFav = getFavs().has(e.id);
   let ageStr = "";
   if (e.tipo === "Compleanno" && e.y) ageStr = `${nowY - e.y} anni compiuti oggi`;
   else if (e.tipo === "Anniversario morte" && e.y) ageStr = `Scomparso ${nowY - e.y} anni fa`;
+
+  const suggestUrl = `mailto:calendario@superbasket.it?subject=${encodeURIComponent("Correzione evento #"+e.id)}&body=${encodeURIComponent(`Evento: ${e.soggetto||"?"} (${e.y||"?"})\nDescrizione: ${e.desc||""}\n\nCorrezione suggerita:\n`)}`;
 
   mc.innerHTML = `
     <button class="modal-close" onclick="closeModal()">✕</button>
     <div class="modal-tipo">${tipoLbl}</div>
     <h2 class="modal-name">${escapeHtml(e.soggetto || e.desc || "—")}</h2>
     <div class="modal-year">${e.y || ""}</div>
+    ${e.anniv ? `<div class="modal-anniv">🏆 ${e.anniv}</div>` : ""}
     ${ageStr ? `<div style="color:var(--muted); font-family:'Helvetica Neue',sans-serif; font-size:12px; letter-spacing:.15em; text-transform:uppercase;">${ageStr}</div>` : ""}
     ${e.desc && e.desc !== e.soggetto ? `<div class="modal-desc">${escapeHtml(e.desc)}</div>` : ""}
+    <div style="margin-top:12px; display:flex; gap:8px;">
+      <button class="fav-btn ${isFav?"on":""}" data-id="${e.id}" onclick="toggleFav(${e.id}); this.classList.toggle('on')" style="position:static; font-size:24px;">★</button>
+      ${e.soggetto ? `<button class="icon-btn" onclick="setRoute('/p/${encodeURIComponent(e.soggetto)}'); closeModal();">Vedi profilo →</button>` : ""}
+    </div>
     <div class="modal-meta">
       ${e.date ? `<div><b>Data</b> · ${e.date}${e.y?"/"+e.y:""}</div>` : ""}
       ${e.nascita ? `<div><b>Luogo di nascita</b> · ${escapeHtml(e.nascita)}</div>` : ""}
@@ -789,69 +1116,55 @@ async function openModal(e) {
       <button onclick="shareModal(${e.id}, 'copy')">Copia link</button>
     </div>
     <div id="modal-related-slot"></div>
+    <div class="modal-suggest">
+      <a href="${suggestUrl}">Suggerisci una correzione ↗</a>
+    </div>
   `;
-  bg.classList.add("on");
-  document.body.style.overflow = "hidden";
+  bg.classList.add("on"); document.body.style.overflow = "hidden";
 
-  // Fetch Wikipedia
   if (e.soggetto && (e.tipo === "Compleanno" || e.tipo === "Anniversario morte")) {
-    const data = await fetchWiki(e.soggetto);
-    if (data) {
+    fetchWiki(e.soggetto).then(data => {
+      if (!data) return;
       const slot = document.getElementById("modal-wiki-slot");
-      if (slot) {
-        slot.innerHTML = `
-          <div class="modal-wiki">
-            <div class="wiki-head">
-              ${data.thumbnail ? `<img class="wiki-photo" src="${data.thumbnail}" alt="">` : ""}
-              <div>
-                <div style="font-family:'Impact',sans-serif; font-size:16px; text-transform:uppercase; margin-bottom:6px;">${escapeHtml(data.title)}</div>
-                <div class="wiki-extract">${escapeHtml(data.extract)}</div>
-                ${data.url ? `<a class="wiki-src" href="${data.url}" target="_blank" rel="noopener">Leggi su Wikipedia ↗</a>` : ""}
-              </div>
+      if (!slot) return;
+      slot.innerHTML = `
+        <div class="modal-wiki">
+          <div class="wiki-head">
+            ${data.thumbnail ? `<img class="wiki-photo" src="${data.thumbnail}" alt="">` : ""}
+            <div>
+              <div style="font-family:'Impact',sans-serif; font-size:16px; text-transform:uppercase; margin-bottom:6px;">${escapeHtml(data.title)}</div>
+              <div class="wiki-extract">${escapeHtml(data.extract)}</div>
+              ${data.url ? `<a class="wiki-src" href="${data.url}" target="_blank" rel="noopener">Leggi su Wikipedia ↗ · Foto e testo da Wikimedia · CC BY-SA</a>` : ""}
             </div>
           </div>
-        `;
-      }
-    }
+        </div>
+      `;
+    });
   }
-
-  // Related events for same subject
   if (e.soggetto) {
     findRelated(e).then(rel => {
-      if (rel.length && document.getElementById("modal-related-slot")) {
-        const html = `
-          <div class="modal-related">
-            <h4>Altri eventi per ${escapeHtml(e.soggetto)}</h4>
-            ${rel.map(r => `
-              <div class="modal-related-item" data-id="${r.id}">
-                <span>${escapeHtml(r.tipo)}</span>
-                <span><b>${r.y || ""}</b></span>
-              </div>
-            `).join("")}
-          </div>
-        `;
-        document.getElementById("modal-related-slot").innerHTML = html;
-        document.querySelectorAll(".modal-related-item").forEach(el => {
-          el.onclick = async () => {
-            const id = +el.dataset.id;
-            const ev = await findById(id);
-            if (ev) openModal(ev);
-          };
-        });
-      }
+      if (!rel.length) return;
+      const slot = document.getElementById("modal-related-slot"); if (!slot) return;
+      slot.innerHTML = `
+        <div class="modal-related">
+          <h4>Altri eventi per ${escapeHtml(e.soggetto)}</h4>
+          ${rel.map(r => `<div class="modal-related-item" data-id="${r.id}"><span>${escapeHtml(TIPO_LABEL[r.tipo]||r.tipo)}</span><span><b>${r.y||""}</b></span></div>`).join("")}
+        </div>
+      `;
+      document.querySelectorAll(".modal-related-item").forEach(el => {
+        el.onclick = () => openModal(+el.dataset.id);
+      });
     });
   }
 }
-window.closeModal = () => {
-  q("#modal-bg").classList.remove("on");
-  document.body.style.overflow = "";
-};
+window.openModal = openModal;
+window.setRoute = setRoute;
+window.closeModal = () => { q("#modal-bg").classList.remove("on"); document.body.style.overflow = ""; };
 q("#modal-bg").onclick = ev => { if (ev.target === q("#modal-bg")) closeModal(); };
 document.addEventListener("keydown", ev => { if (ev.key === "Escape") closeModal(); });
 
 window.shareModal = async (id, target) => {
-  const ev = await findById(id);
-  if (!ev) return;
+  const ev = await findById(id); if (!ev) return;
   const name = ev.soggetto || ev.desc;
   const line = `${TIPO_LABEL[ev.tipo] || ev.tipo}: ${name}${ev.y ? " (" + ev.y + ")" : ""} — Calendario Storico Superbasket`;
   const url = location.origin + location.pathname;
@@ -862,13 +1175,10 @@ window.shareModal = async (id, target) => {
     twitter:  `https://twitter.com/intent/tweet?text=${enc(line)}&url=${enc(url)}`,
     facebook: `https://www.facebook.com/sharer/sharer.php?u=${enc(url)}&quote=${enc(line)}`,
   };
-  if (target === "copy") {
-    await navigator.clipboard.writeText(line + " " + url);
-    toast("Link + testo copiati");
-  } else if (share[target]) {
-    window.open(share[target], "_blank");
-  }
+  if (target === "copy") { await navigator.clipboard.writeText(line + " " + url); toast("Link + testo copiati"); }
+  else if (share[target]) window.open(share[target], "_blank");
 };
+window.toggleFav = toggleFav;
 
 async function findById(id) {
   for (let m=1; m<=12; m++) {
@@ -878,15 +1188,12 @@ async function findById(id) {
   }
   return null;
 }
-
 async function findRelated(e) {
   if (!e.soggetto) return [];
   const out = [];
   for (let m=1; m<=12; m++) {
     const evs = await getMonth(m);
-    for (const ev of evs) {
-      if (ev.id !== e.id && ev.soggetto === e.soggetto) out.push(ev);
-    }
+    for (const ev of evs) if (ev.id !== e.id && ev.soggetto === e.soggetto) out.push(ev);
   }
   return out.slice(0, 8);
 }
@@ -895,7 +1202,23 @@ async function randomEvent() {
   const m = 1 + Math.floor(Math.random()*12);
   const evs = await getMonth(m);
   const e = evs[Math.floor(Math.random()*evs.length)];
-  openModal(e);
+  openModal(e.id);
+}
+
+// ==== Favorites view ====
+async function renderFavorites() {
+  const favs = getFavs();
+  const grid = q("#favorites-grid"); grid.innerHTML = "";
+  if (!favs.size) { q("#favorites-empty").style.display = ""; return; }
+  q("#favorites-empty").style.display = "none";
+  const events = [];
+  for (const id of favs) {
+    const e = await findById(id);
+    if (e) events.push(e);
+  }
+  events.sort((a,b) => (b.y||0) - (a.y||0));
+  const nowY = new Date().getFullYear();
+  events.forEach(e => grid.appendChild(makeCard(e, nowY)));
 }
 
 // ==== Stats view ====
@@ -903,18 +1226,15 @@ async function loadStats() {
   const grid = q("#stats-grid");
   if (grid.dataset.loaded) return;
   grid.dataset.loaded = "1";
-  const stats = await (await fetch("v2/stats.json")).json();
-  const byTypeSum = Object.values(stats.byType).reduce((a,b)=>a+b,0);
+  const stats = statsData || await fetch("v2/stats.json").then(r=>r.json());
   const maxDecade = Math.max(...Object.values(stats.byDecade));
-  const decadeRows = Object.entries(stats.byDecade)
-    .filter(([d,v])=>v>=5)
-    .map(([d,v]) => `
-      <div class="bar-row">
-        <span class="bar-lbl">'${d.slice(2,4)}s</span>
-        <span class="bar-track"><span class="bar-fill" style="width:${(v/maxDecade)*100}%"></span></span>
-        <span class="bar-val">${v}</span>
-      </div>
-    `).join("");
+  const decadeRows = Object.entries(stats.byDecade).filter(([d,v])=>v>=5).map(([d,v]) => `
+    <div class="bar-row">
+      <span class="bar-lbl">'${d.slice(2,4)}s</span>
+      <span class="bar-track"><span class="bar-fill" style="width:${(v/maxDecade)*100}%"></span></span>
+      <span class="bar-val">${v}</span>
+    </div>
+  `).join("");
   const maxType = Math.max(...Object.values(stats.byType));
   const typeRows = TIPO_ORDER.filter(t=>stats.byType[t]).map(t => `
     <div class="bar-row">
@@ -938,12 +1258,10 @@ async function loadStats() {
       <div class="stat-label">Giocatori, allenatori, squadre</div>
     </div>
     <div class="stat-card">
-      <h3>Per tipo</h3>
-      ${typeRows}
+      <h3>Per tipo</h3>${typeRows}
     </div>
     <div class="stat-card" style="grid-column: span 2">
-      <h3>Compleanni per decennio di nascita</h3>
-      ${decadeRows}
+      <h3>Compleanni per decennio di nascita</h3>${decadeRows}
     </div>
   `;
 }
@@ -954,10 +1272,7 @@ function escapeHtml(s) {
 
 boot();
 
-// Register service worker
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("sw.js").catch(()=>{});
-}
+if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(()=>{});
 </script>
 </body>
 </html>
